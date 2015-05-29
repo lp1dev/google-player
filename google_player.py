@@ -8,6 +8,7 @@ def search(content, title):
     result = get_google_results("-inurl:(htm|html|php) intitle:”index of” +”last modified” +”parent directory” +description +size +(wma|mp3) “%s”" %content+" "+title, title)
     if len(result) < 3:
         return print("Fichier non trouvé :(")
+    return result
     call(["vlc",result]) 
     return 0
 
