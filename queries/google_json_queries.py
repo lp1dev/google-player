@@ -15,7 +15,7 @@ def link_matches(link, query):
     for word in query.split(" "):
         if word.lower() in link.split("/")[len(link.split("/")) - 1].lower().replace("%20", " "):
             matches += 1
-    if matches > len(query.split(" ")) / 2:
+    if matches > len(query.split(" ")) / 2 and matches > 0:
         if test_link(link):
             print(link)
             return True
@@ -26,21 +26,22 @@ def get_google_results(search, query, page=0):
     urls = []
     driver = webdriver.PhantomJS()
     driver.get('http://www.google.com/')
-    time.sleep(1)
+    driver.implicitly_wait(10)
     search_box = driver.find_element_by_class_name("lst")
     search_box.send_keys(search)
     button = driver.find_element_by_name("btnG")
     button.click()
-    time.sleep(1)
+    driver.implicitly_wait(10)
     start = page * 10
     driver.get(driver.current_url+"&start=%i" %start)
-    time.sleep(1)
+    driver.implicitly_wait(10)
     links = driver.find_elements_by_xpath("//*[@href]")
     for link in links:
         if "http://www.google.fr/url?q=" in link.get_attribute('href') and "webcache.googleusercontent.com" not in link.get_attribute('href'):
             urls.append(link.get_attribute('href'))
     for url in urls:
         driver.get(url)
+        driver.implicitly_wait(10)
         mp3_links = driver.find_elements_by_xpath("//*[@href]")
         for mp3_link in mp3_links:
             if ".mp3" in mp3_link.get_attribute('href'):
