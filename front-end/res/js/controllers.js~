@@ -1,0 +1,8 @@
+var playerApp = angular.module('playerApp', []);
+
+playerApp.controller('playerController',
+		     function ($scope)
+		     {
+			 alert("working");
+		     }
+		    );
